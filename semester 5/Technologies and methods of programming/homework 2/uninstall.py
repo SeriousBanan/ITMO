@@ -1,10 +1,12 @@
 import os
-from os.path import expanduser
 
-os.chdir(expanduser("~"))
-for dirpath, dirnames, filenames in os.walk('my_program'):
+PROG_FOLDER_PATH = "~/TIMP 2 prog"
+
+for dirpath, dirnames, filenames in os.walk(os.path.expanduser(PROG_FOLDER_PATH)):
     for filename in filenames:
         os.remove(os.path.join(dirpath, filename))
     for dirname in dirnames:
         os.removedirs(os.path.join(dirpath, dirname))
-        os.rmdir('my_program')
+    break
+
+os.rmdir(os.path.expanduser(PROG_FOLDER_PATH))

@@ -1,20 +1,27 @@
 import tarfile
 import os
-from os.path import expanduser
 import time
+import pickle
 
-tar = tarfile.open("pack.tar")
-os.chdir(expanduser("~"))
-tar.extractall("./my_program")
-tar.close()
+PROG_FOLDER_PATH = "~/TIMP 2 prog"
+PROG_LIMITS_FOLDER_PATH = "~/.TIMP 2 prog limits"
 
-if not os.path.isdir('.pay_to_use'):
-    os.mkdir('.pay_to_use')
-    install_time = open('.pay_to_use/install_time', 'w')
-    install_time.write(str(time.time()))
-    install_time.close()
-    times_used = open('.pay_to_use/times_used', 'w')
-    times_used.write('0')
-    times_used.close()
+
+with tarfile.open("data.tar.xz") as tar:
+    tar.extractall(os.path.expanduser(PROG_FOLDER_PATH))
+
+    with open(os.path.join(os.path.expanduser(PROG_FOLDER_PATH), "users.dat"), "wb") as file:
+        pickle.dump(set(), file)
+
+
+if not os.path.isdir(os.path.expanduser(PROG_LIMITS_FOLDER_PATH)):
+    os.makedirs(os.path.expanduser(PROG_LIMITS_FOLDER_PATH))
+
+    with open(os.path.join(os.path.expanduser(PROG_LIMITS_FOLDER_PATH), "install time"), "w") as file:
+        print(time.time(), file=file)
+
+    with open(os.path.join(os.path.expanduser(PROG_LIMITS_FOLDER_PATH), "startup times left"), "w") as file:
+        print(5, file=file)
+
 else:
-    print("Обнаружена предыдущая инсталляция.")
+    print("Программа уже была установлена.")
