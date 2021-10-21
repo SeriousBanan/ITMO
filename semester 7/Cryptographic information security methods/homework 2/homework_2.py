@@ -1,7 +1,7 @@
 from typing import List
 
 
-def encode(block: str, key: str) -> str:
+def encrypt(block: str, key: str) -> str:
     ip_block = _block_initial_permutation(block)
     left_block, right_block = ip_block[:32], ip_block[32:]
 
@@ -15,7 +15,7 @@ def encode(block: str, key: str) -> str:
     return _block_final_permutation(right_block + left_block)
 
 
-def decode(block: str, key: str) -> str:
+def decrypt(block: str, key: str) -> str:
     ip_block = _block_initial_permutation(block)
     right_block, left_block = ip_block[:32], ip_block[32:]
 
@@ -201,16 +201,16 @@ def main():
     text = "0" * 64
     key = "0" * 64
 
-    encoded = encode(text, key)
-    decoded = decode(encoded, key)
+    encrypted = encrypt(text, key)
+    decrypted = decrypt(encrypted, key)
 
     print(
         f"{text = }\n"
         f"{key = }\n"
         "\n"
-        f"{encoded = }\n"
-        f"{decoded = }\n"
-        f"{decoded == text = }"
+        f"{encrypted = }\n"
+        f"{decrypted = }\n"
+        f"{decrypted == text = }"
     )
 
 
